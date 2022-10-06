@@ -37,14 +37,14 @@ def search():
 	#Realizar busqueda
 	response  = search_query(words)
 
-	print(response)
-	print("--------------------------")
+	#print(response)
+	#print("--------------------------")
 	#lista almacenar resultados
 	pagelist = []
 
 	if not len(response):
-		print("No encontro nada")
-		return jsonify([])
+		print("No se encontro nada")
+		return url_for(home)
 
 	else:
 
@@ -64,12 +64,20 @@ def search():
 		for k, v in sorted(page_rank.items(), reverse=True, key=lambda item: item[1][0]):
 			page_rank[f"{k} ({v[0]})"]=f"{k}"
 
+		output={}
+		contador=10
+		for k,v in page_rank.items():
+			if( contador==0):
+				break
+			output[k]=v
+			contador-=1
+
 
 		#print(pagelist)
 		#return jsonify(pagelist)
 		return render_template("resultados.html",
 			busqueda=words,
-        	resultados=page_rank
+        	resultados=output
         )
 	#os.system('bash java.sh '+words)
 	#print (response)
