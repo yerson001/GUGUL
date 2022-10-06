@@ -60,9 +60,7 @@ def search():
 
 		#if not len(page_rank):		
 		#	return jsonify([])			
-		page_rank = {}
-		for k, v in sorted(page_rank.items(), reverse=True, key=lambda item: item[1][0]):
-			page_rank[f"{k} ({v[0]})"]=f"{k}"
+		page_rank = {k: v for k, v in sorted(page_rank.items(), reverse=True, key=lambda item: item[1][0])}	
 
 		output={}
 		contador=10
