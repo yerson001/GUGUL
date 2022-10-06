@@ -40,7 +40,7 @@
     <body>
         <div class="resultados-container">
             {% for key,value in resultados.items()%}    
-            <a class="resultado" href={{value}}>
+            <a class="resultado" href={{url_for('verDocumento', documento=value)}} name="documento">
                 {{key}}
             </a>
             <br><br>
