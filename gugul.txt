@@ -1,0 +1,86 @@
+echo "you? you,now" | python mapper.py | sort | python reducer.py
+cat input.txt | python mapper.py | sort | python reducer.py
+
+
+
+/usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar
+
+
+
+echo "******************** Calculating inverted index ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+        -file mapper.py \
+        -mapper "python mapper.py" \
+        -file reducer.py  \
+        -reducer "python reducer.py" \
+        -input /input/ \
+        -output /output
+
+
+echo "******************** Download results ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+               -Dmapred.reduce.tasks=1 \
+               -input /output/ \
+               -output /result \
+               -mapper cat \
+               -reducer cat
+
+hdfs dfs -get /result/part-00000
+
+echo "******************** Creating folder and upload files for pagerank ********************"
+hdfs dfs -mkdir /input2
+hdfs dfs -put pagerank.txt /input2
+
+
+echo "******************** Calculating pagerank ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+        -file pagerank_mapper.py \
+        -mapper "python pagerank_mapper.py" \
+        -file pagerank_reducer.py  \
+        -reducer "python pagerank_reducer.py" \
+        -input /input2/ \
+        -output /output2
+
+echo "******************** Download results ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+               -Dmapred.reduce.tasks=1 \
+               -input /output2/ \
+               -output /result2 \
+               -mapper cat \
+               -reducer cat
+
+
+echo "******************** Calculating pagerank ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+        -file rank_map.py \
+        -mapper "python rank_map.py" \
+        -input /result2/part-00000 \
+        -output /output3
+
+
+echo "******************** Download results ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+               -Dmapred.reduce.tasks=1 \
+               -input /output2/ \
+               -output /result2 \
+               -mapper cat \
+               -reducer cat
+
+echo "******************** Calculating pagerank ********************"
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+        -file rank_map.py \
+        -mapper "python rank_map.py" \
+        -input /result2/part-00000 \
+        -output /output3
+
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+               -Dmapred.reduce.tasks=1 \
+               -input /output3/ \
+               -output /result3 \
+               -mapper cat \
+               -reducer cat
+
+
+
+http:///
