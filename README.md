@@ -244,3 +244,8 @@ tar -xzvf hadoop-3.3.1.tar.gz
 cd hadoop-3.3.1/share/hadoop/tools/lib/
 
 ~~~
+~~~
+crear carpetas
+hdfs dfsadmin -safemode leave
+hadoop fs -mkdir /input
+~~~
