@@ -252,7 +252,10 @@ hadoop fs -mkdir /input
 
  ~~~
  dubir archivos
- hadoop fs -put *.txt /
+ hadoop fs -put *.txt /folder
+ 
+ eliminar
+ hadoop fs -rm -r /mi_carpeta
  ~~~
  
  
