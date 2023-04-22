@@ -249,3 +249,10 @@ crear carpetas
 hdfs dfsadmin -safemode leave
 hadoop fs -mkdir /input
 ~~~
+
+ ~~~
+ dubir archivos
+ hadoop fs -put *.txt /
+ ~~~
+ 
+ 
