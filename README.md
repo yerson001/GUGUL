@@ -237,4 +237,10 @@ hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
                -output /result3 \
                -mapper cat \
                -reducer cat
+~~~
+wget http://mirror.cogentco.com/pub/apache/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
 
+tar -xzvf hadoop-3.3.1.tar.gz
+cd hadoop-3.3.1/share/hadoop/tools/lib/
+
+~~~
